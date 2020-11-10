@@ -3,5 +3,5 @@ package data;
 import business.Patient;
 
 public interface DataLayerInterface {
-	public Patient getPatient(String name); 
+	public Patient getPatient(int id); 
 }
