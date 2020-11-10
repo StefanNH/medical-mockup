@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.ArrayList;
 
-import org.postgresql.ds.PGPoolingDataSource;
 
 public class KMServer extends Thread {
 
@@ -22,7 +21,6 @@ public class KMServer extends Thread {
 	public void run() {
 		try {
 			try {
-				PGPoolingDataSource source = new PGPoolingDataSource();
 				// Establish a connection to the database Connection
 				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/kwikdb", "kwikuser",
 						"password");
