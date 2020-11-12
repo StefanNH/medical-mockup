@@ -1,7 +1,8 @@
 package data;
 
-import business.Patient;
+import utilities.Patient;
 
 public interface DataLayerInterface {
-	public Patient getPatient(int id); 
+	public boolean addPatient(Patient pt);
+	public Patient getPatient(int id);
 }

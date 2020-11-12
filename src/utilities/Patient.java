@@ -1,10 +1,23 @@
-package business;
+package utilities;
 
 public class Patient {
+
 	private int id;
 	private String name;
 	private String address;
 	private String diagnosis;
+
+	// default constructor
+	public Patient() {
+	}
+
+	// consturctor with fields
+	public Patient(int id, String name, String address, String diagnosis) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.diagnosis = diagnosis;
+	}
 
 	public int getId() {
 		return id;
