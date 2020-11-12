@@ -10,8 +10,12 @@ public class AppLayer implements AppLayerInterface {
 		dt = newDt;
 	}
 	
-	public String addPatient() {
-		dt.addPatient(new Patient());
-		return"";
+	public String addPatient(int id, String name, String address, String diagnosis) {
+		boolean success = dt.addPatient(new Patient(id,name,address,diagnosis));
+		if(success) {
+			return "Patient was added succesfully";
+		}else {
+			return "Failed to add pattient";
+		}
 	}
 }
