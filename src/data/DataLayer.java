@@ -33,14 +33,14 @@ public class DataLayer implements DataLayerInterface {
 	public boolean addPatient(Patient pt) {
 		try {
 			stmt = conn.createStatement();
-			String query = "SELECT * FROM patients WHERE patient_id =" + pt.getId() + " AND p_name LIKE '%"
-					+ pt.getName() + "%';";
-			String update = "INSERT INTO patients (patient_id, p_name, address, diagnosis) "
-					+ "VALUES (" + pt.getId() + ", '" + pt.getName() + "', '" + pt.getAddress() + "','" + pt.getDiagnosis() + "');";
+			String query = "SELECT * FROM patients WHERE patient_id =" + pt.getId() + " OR p_name LIKE '"
+					+ pt.getName() + "';";
+			String update = "INSERT INTO patients (patient_id, p_name, address, diagnosis) " + "VALUES (" + pt.getId()
+					+ ", '" + pt.getName() + "', '" + pt.getAddress() + "','" + pt.getDiagnosis() + "');";
 			rs = stmt.executeQuery(query);
-			if(rs.next()) {
+			if (rs.next()) {
 				return false;
-			}else if(!rs.next()) {
+			} else {
 				stmt.executeUpdate(update);
 			}
 

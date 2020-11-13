@@ -75,12 +75,12 @@ public class KwikMedicalGUI extends JFrame {
 		getContentPane().add(txtAddress);
 		txtAddress.setColumns(10);
 
-		this.btnAdd = new JButton("ADD");
+		btnAdd = new JButton("ADD");
 		btnAdd.addActionListener(new AddButtonListener());
 		btnAdd.setBounds(462, 6, 114, 21);
 		getContentPane().add(btnAdd);
 
-		this.btnUpdate = new JButton("UPDATE");
+		btnUpdate = new JButton("UPDATE");
 		btnUpdate.setBounds(462, 29, 114, 21);
 		getContentPane().add(btnUpdate);
 
@@ -92,7 +92,7 @@ public class KwikMedicalGUI extends JFrame {
 		btnSearch.setBounds(462, 109, 114, 43);
 		getContentPane().add(btnSearch);
 
-		JTextArea txtAreaInfo = new JTextArea();
+		txtAreaInfo = new JTextArea();
 		txtAreaInfo.setBounds(10, 162, 566, 191);
 		getContentPane().add(txtAreaInfo);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
