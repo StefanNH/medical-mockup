@@ -9,14 +9,17 @@ import application.AppLayerInterface;
 
 import javax.swing.BorderFactory;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JTextArea;
 import java.awt.Font;
+import java.awt.Color;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class KwikMedicalGUI extends JFrame {
 	private AppLayerInterface appLayer;
+	private JPanel panel;
 	private JTextField txtNHSnum;
 	private JTextField txtName;
 	private JTextField txtMedCondition;
@@ -24,8 +27,11 @@ public class KwikMedicalGUI extends JFrame {
 	private JTextArea txtAreaInfo;
 	private JButton btnAdd;
 	private JButton btnUpdate;
-	private JPanel panel;
-	
+	private JButton btnSearch;
+	private JButton btnDelete;
+	private JLabel lblDisplayInfo;
+	private JLabel lblMetaInfo;
+
 	public KwikMedicalGUI(AppLayerInterface appLayer) {
 		this.appLayer = appLayer;
 		getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -76,7 +82,15 @@ public class KwikMedicalGUI extends JFrame {
 		txtAddress.setColumns(10);
 
 		btnAdd = new JButton("ADD");
-		btnAdd.addActionListener(new AddButtonListener());
+		btnAdd.addActionListener(e -> {
+			int patientID = Integer.parseInt(txtNHSnum.getText());
+			String name = txtName.getText();
+			String address = txtAddress.getText();
+			String diagnosis = txtMedCondition.getText();
+			String result = appLayer.addPatient(patientID, name, address, diagnosis);
+			txtAreaInfo.setText(result);
+			lblDisplayInfo.setText(result);
+		});
 		btnAdd.setBounds(462, 6, 114, 21);
 		getContentPane().add(btnAdd);
 
@@ -84,31 +98,34 @@ public class KwikMedicalGUI extends JFrame {
 		btnUpdate.setBounds(462, 29, 114, 21);
 		getContentPane().add(btnUpdate);
 
-		JButton btnDelete = new JButton("DELETE");
-		btnDelete.setBounds(462, 52, 114, 21);
+		btnDelete = new JButton("DELETE");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnDelete.setForeground(Color.WHITE);
+		btnDelete.setBackground(Color.RED);
+		btnDelete.setBounds(462, 134, 114, 21);
 		getContentPane().add(btnDelete);
 
-		JButton btnSearch = new JButton("SEARCH");
-		btnSearch.setBounds(462, 109, 114, 43);
+		btnSearch = new JButton("SEARCH");
+		btnSearch.setBounds(462, 56, 114, 43);
 		getContentPane().add(btnSearch);
 
 		txtAreaInfo = new JTextArea();
-		txtAreaInfo.setBounds(10, 162, 566, 191);
+		txtAreaInfo.setBounds(10, 184, 566, 169);
 		getContentPane().add(txtAreaInfo);
+
+		lblDisplayInfo = new JLabel("");
+		lblDisplayInfo.setBounds(17, 134, 435, 17);
+		getContentPane().add(lblDisplayInfo);
+		
+		lblMetaInfo = new JLabel("Medical History");
+		lblMetaInfo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMetaInfo.setBounds(10, 161, 566, 13);
+		getContentPane().add(lblMetaInfo);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Kwik Medical");
 		setVisible(true);
-	}
-
-	private class AddButtonListener implements ActionListener {
-		// Called when the Add button is clicked
-		public void actionPerformed(ActionEvent arg0) {
-			int patientID = Integer.parseInt(txtNHSnum.getText());
-			String name = txtName.getText();
-			String address = txtAddress.getText();
-			String diagnosis = txtMedCondition.getText();
-			String result = appLayer.addPatient(patientID, name, address, diagnosis);
-			txtAreaInfo.setText(result);
-		}
 	}
 }
