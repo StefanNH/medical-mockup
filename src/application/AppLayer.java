@@ -10,6 +10,7 @@ public class AppLayer implements AppLayerInterface {
 		dt = newDt;
 	}
 	
+	@Override
 	public String addPatient(int id, String name, String address, String diagnosis) {
 		boolean success = dt.addPatient(new Patient(id,name,address,diagnosis));
 		if(success) {
@@ -17,5 +18,11 @@ public class AppLayer implements AppLayerInterface {
 		}else {
 			return "Failed to add pattient";
 		}
+	}
+
+	@Override
+	public Patient findPatient(int id) {
+		return dt.getPatient(id);
+		
 	}
 }

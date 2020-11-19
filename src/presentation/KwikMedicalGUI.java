@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import application.AppLayerInterface;
+import utilities.Patient;
 
 import javax.swing.BorderFactory;
 import java.awt.GridLayout;
@@ -109,6 +110,22 @@ public class KwikMedicalGUI extends JFrame {
 		getContentPane().add(btnDelete);
 
 		btnSearch = new JButton("SEARCH");
+		btnSearch.addActionListener(e -> {
+			int patientID = Integer.parseInt(txtNHSnum.getText());
+			Patient pt = appLayer.findPatient(patientID);
+			if (pt.getId() == 0 && pt.getName() == null) {
+				lblDisplayInfo.setText("Patient not found");
+				txtName.setText("");
+				txtAddress.setText("");
+				txtMedCondition.setText("");
+			} else {
+				txtName.setText(pt.getName());
+				txtAddress.setText(pt.getAddress());
+				txtMedCondition.setText(pt.getDiagnosis());
+				lblDisplayInfo.setText("Patient found");
+			}
+
+		});
 		btnSearch.setBounds(462, 56, 114, 43);
 		getContentPane().add(btnSearch);
 
@@ -119,7 +136,7 @@ public class KwikMedicalGUI extends JFrame {
 		lblDisplayInfo = new JLabel("");
 		lblDisplayInfo.setBounds(17, 134, 435, 17);
 		getContentPane().add(lblDisplayInfo);
-		
+
 		lblMetaInfo = new JLabel("Medical History");
 		lblMetaInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMetaInfo.setBounds(10, 161, 566, 13);
