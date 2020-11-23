@@ -4,6 +4,10 @@ import utilities.Patient;
 
 public interface DataLayerInterface {
 	public boolean addPatient(Patient pt);
+
 	public Patient getPatient(int id);
+
 	public boolean updatePatient(Patient pt);
+
+	public boolean deletePatient(int id);
 }

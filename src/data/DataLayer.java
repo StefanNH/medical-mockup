@@ -118,4 +118,30 @@ public class DataLayer implements DataLayerInterface {
 		return false;
 	}
 
+	@Override
+	public boolean deletePatient(int id) {
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT patient_id, p_name, address, diagnosis FROM patients WHERE patient_id =" + id + ";";
+			String delete = "DELETE FROM patients WHERE patient_id=" + id + ";";
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				stmt.executeUpdate(delete);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 }

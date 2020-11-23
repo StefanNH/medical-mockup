@@ -110,9 +110,10 @@ public class KwikMedicalGUI extends JFrame {
 		getContentPane().add(btnUpdate);
 
 		btnDelete = new JButton("DELETE");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+		btnDelete.addActionListener(e -> {
+			int patientID = Integer.parseInt(txtNHSnum.getText());
+			String result = appLayer.deletePatient(patientID);
+			lblDisplayInfo.setText(result);
 		});
 		btnDelete.setForeground(Color.WHITE);
 		btnDelete.setBackground(Color.RED);
