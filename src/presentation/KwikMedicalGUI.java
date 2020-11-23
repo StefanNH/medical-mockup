@@ -1,22 +1,23 @@
 package presentation;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import application.AppLayerInterface;
-import utilities.Patient;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import java.awt.GridLayout;
-
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.awt.Font;
-import java.awt.Color;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import application.AppLayerInterface;
+import utilities.Patient;
 
 public class KwikMedicalGUI extends JFrame {
 	private AppLayerInterface appLayer;
@@ -32,6 +33,7 @@ public class KwikMedicalGUI extends JFrame {
 	private JButton btnDelete;
 	private JLabel lblDisplayInfo;
 	private JLabel lblMetaInfo;
+	private JScrollPane scrollPane;
 
 	public KwikMedicalGUI(AppLayerInterface appLayer) {
 		this.appLayer = appLayer;
@@ -97,6 +99,14 @@ public class KwikMedicalGUI extends JFrame {
 
 		btnUpdate = new JButton("UPDATE");
 		btnUpdate.setBounds(462, 29, 114, 21);
+		btnUpdate.addActionListener(e -> {
+			int patientID = Integer.parseInt(txtNHSnum.getText());
+			String name = txtName.getText();
+			String address = txtAddress.getText();
+			String diagnosis = txtMedCondition.getText();
+			String result = appLayer.updatePatient(patientID, name, address, diagnosis);
+			lblDisplayInfo.setText(result);
+		});
 		getContentPane().add(btnUpdate);
 
 		btnDelete = new JButton("DELETE");
@@ -131,7 +141,10 @@ public class KwikMedicalGUI extends JFrame {
 
 		txtAreaInfo = new JTextArea();
 		txtAreaInfo.setBounds(10, 184, 566, 169);
-		getContentPane().add(txtAreaInfo);
+		scrollPane = new JScrollPane(txtAreaInfo);
+		scrollPane.setSize(566, 169);
+		scrollPane.setLocation(10, 184);
+		getContentPane().add(scrollPane);
 
 		lblDisplayInfo = new JLabel("");
 		lblDisplayInfo.setBounds(17, 134, 435, 17);

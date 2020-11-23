@@ -25,4 +25,14 @@ public class AppLayer implements AppLayerInterface {
 		return dt.getPatient(id);
 		
 	}
+	
+	@Override
+	public String updatePatient(int id, String name, String address, String diagnosis) {
+		boolean success = dt.updatePatient(new Patient(id,name,address,diagnosis));
+		if (success) {
+			return "Patient successfully updated";
+		} else {
+			return "Patient update failed";
+		}
+	}
 }

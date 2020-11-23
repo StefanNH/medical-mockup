@@ -55,7 +55,6 @@ public class DataLayer implements DataLayerInterface {
 			}
 		}
 		return true;
-
 	}
 
 	@Override
@@ -90,5 +89,33 @@ public class DataLayer implements DataLayerInterface {
 		return patient;
 	}
 
+	@Override
+	public boolean updatePatient(Patient pt) {
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT patient_id, p_name, address, diagnosis FROM patients WHERE patient_id =" + pt.getId()
+					+ ";";
+			String update = "UPDATE patients SET p_name='" + pt.getName() + "', address='" + pt.getAddress()
+					+ "', diagnosis='" + pt.getDiagnosis() + "' WHERE patient_id=" + pt.getId() + ";";
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				stmt.executeUpdate(update);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return false;
+	}
 
 }
