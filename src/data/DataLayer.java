@@ -1,7 +1,12 @@
 package data;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
+import utilities.MedicalRecord;
 import utilities.Patient;
 
 public class DataLayer implements DataLayerInterface {
@@ -136,12 +141,45 @@ public class DataLayer implements DataLayerInterface {
 			e.printStackTrace();
 		} finally {
 			try {
-
+				stmt.close();
+				rs.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
 		}
 		return false;
+
+	}
+
+	@Override
+	public ArrayList<MedicalRecord> getRecords(int id) {
+		ArrayList<MedicalRecord> res = new ArrayList<>();
+		try {
+
+			stmt = conn.createStatement();
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE patient_id =" + id + ";";
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				int medID = rs.getInt("med_id");
+				int patientID = rs.getInt("patient_id");
+				String diagnosis = rs.getString("diagnosis");
+				String treatment = rs.getString("treatment");
+				String location = rs.getString("location");
+				String timeDetails = rs.getString("time_details");
+				res.add(new MedicalRecord(medID,patientID,diagnosis,treatment,location,timeDetails));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return res;
 	}
 
 }

@@ -1,6 +1,9 @@
 package application;
 
+import java.util.ArrayList;
+
 import data.DataLayerInterface;
+import utilities.MedicalRecord;
 import utilities.Patient;
 
 public class AppLayer implements AppLayerInterface {
@@ -44,5 +47,17 @@ public class AppLayer implements AppLayerInterface {
 		} else {
 			return "Failed to remove patient";
 		}
+	}
+
+	@Override
+	public String getRecords(int id) {
+		ArrayList<MedicalRecord> res = dt.getRecords(id);
+		String result = "";
+		if (res.size() > 0) {
+			for (var v : res) {
+				result = result + v.toString() + "\r\n";
+			}
+		}
+		return result;
 	}
 }

@@ -10,5 +10,7 @@ public interface AppLayerInterface {
 	public String updatePatient(int id, String name, String address, String diagnosis);
 
 	public String deletePatient(int id);
+	
+	public String getRecords(int id);
 
 }

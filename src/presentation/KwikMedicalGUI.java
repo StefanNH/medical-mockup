@@ -3,6 +3,7 @@ package presentation;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,9 +16,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
 import application.AppLayerInterface;
 import utilities.Patient;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JList;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class KwikMedicalGUI extends JFrame {
 	private AppLayerInterface appLayer;
@@ -26,14 +33,19 @@ public class KwikMedicalGUI extends JFrame {
 	private JTextField txtName;
 	private JTextField txtMedCondition;
 	private JTextField txtAddress;
-	private JTextArea txtAreaInfo;
 	private JButton btnAdd;
 	private JButton btnUpdate;
 	private JButton btnSearch;
 	private JButton btnDelete;
+	private JButton btnUpdateRecords;
+	private JButton btnShowRecords;
+	private JButton btnSendDetails;
 	private JLabel lblDisplayInfo;
 	private JLabel lblMetaInfo;
 	private JScrollPane scrollPane;
+	private JTextArea txtAreaInfo;
+	private JTextField txtCoordX;
+	private JTextField txtCoordY;
 
 	public KwikMedicalGUI(AppLayerInterface appLayer) {
 		this.appLayer = appLayer;
@@ -43,7 +55,7 @@ public class KwikMedicalGUI extends JFrame {
 		panel.setBounds(0, 0, 0, 0);
 		panel.setBorder(BorderFactory.createEmptyBorder(60, 60, 10, 60));
 		panel.setLayout(new GridLayout(3, 2));
-		setSize(600, 400);
+		setSize(600, 450);
 		getContentPane().setLayout(null);
 
 		getContentPane().add(panel);
@@ -91,7 +103,6 @@ public class KwikMedicalGUI extends JFrame {
 			String address = txtAddress.getText();
 			String diagnosis = txtMedCondition.getText();
 			String result = appLayer.addPatient(patientID, name, address, diagnosis);
-			txtAreaInfo.setText(result);
 			lblDisplayInfo.setText(result);
 		});
 		btnAdd.setBounds(462, 6, 114, 21);
@@ -140,21 +151,61 @@ public class KwikMedicalGUI extends JFrame {
 		btnSearch.setBounds(462, 56, 114, 43);
 		getContentPane().add(btnSearch);
 
-		txtAreaInfo = new JTextArea();
-		txtAreaInfo.setBounds(10, 184, 566, 169);
-		scrollPane = new JScrollPane(txtAreaInfo);
-		scrollPane.setSize(566, 169);
-		scrollPane.setLocation(10, 184);
-		getContentPane().add(scrollPane);
-
 		lblDisplayInfo = new JLabel("");
 		lblDisplayInfo.setBounds(17, 134, 435, 17);
 		getContentPane().add(lblDisplayInfo);
 
-		lblMetaInfo = new JLabel("Medical History");
+		lblMetaInfo = new JLabel("Medical Records");
 		lblMetaInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMetaInfo.setBounds(10, 161, 566, 13);
 		getContentPane().add(lblMetaInfo);
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 184, 566, 154);
+		getContentPane().add(scrollPane);
+
+		txtAreaInfo = new JTextArea();
+		scrollPane.setViewportView(txtAreaInfo);
+
+		btnShowRecords = new JButton("SHOW RECORDS");
+		btnShowRecords.setBounds(17, 348, 140, 21);
+		btnShowRecords.addActionListener(e -> {
+			int patientID = Integer.parseInt(txtNHSnum.getText());
+			String result = appLayer.getRecords(patientID);
+			if (result.equals("")) {
+				txtAreaInfo.setText("No Records Found");
+			} else {
+				txtAreaInfo.setText(result);
+			}
+		});
+		getContentPane().add(btnShowRecords);
+
+		btnUpdateRecords = new JButton("UPDATE RECORDS");
+		btnUpdateRecords.setBounds(424, 348, 152, 21);
+		btnUpdateRecords.addActionListener(e -> {
+			new HospitalGUI(this.appLayer);
+		});
+		getContentPane().add(btnUpdateRecords);
+
+		txtCoordX = new JTextField();
+		txtCoordX.setBounds(170, 384, 96, 19);
+		getContentPane().add(txtCoordX);
+		txtCoordX.setColumns(10);
+
+		txtCoordY = new JTextField();
+		txtCoordY.setBounds(276, 384, 96, 19);
+		getContentPane().add(txtCoordY);
+		txtCoordY.setColumns(10);
+
+		btnSendDetails = new JButton("SEND DETAILS");
+		btnSendDetails.setBounds(382, 383, 140, 21);
+		getContentPane().add(btnSendDetails);
+
+		JLabel lblNewLabel_4 = new JLabel("Coordinates");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setBounds(50, 387, 118, 13);
+		getContentPane().add(lblNewLabel_4);
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Kwik Medical");
 		setVisible(true);
