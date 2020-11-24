@@ -1,5 +1,7 @@
 package main;
 
+import java.util.ArrayList;
+
 import application.AppLayer;
 import data.DataLayer;
 import presentation.KwikMedicalGUI;
@@ -9,5 +11,6 @@ public class App {
 		DataLayer dl = DataLayer.getInstance();
 		AppLayer app = new AppLayer(dl);
 		KwikMedicalGUI gui = new KwikMedicalGUI(app);
+		
 	}
 }

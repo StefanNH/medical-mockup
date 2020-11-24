@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import utilities.Hospital;
 import utilities.MedicalRecord;
 import utilities.Patient;
 
@@ -157,7 +158,8 @@ public class DataLayer implements DataLayerInterface {
 		try {
 
 			stmt = conn.createStatement();
-			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE patient_id =" + id + ";";
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE patient_id ="
+					+ id + ";";
 			rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				int medID = rs.getInt("med_id");
@@ -166,7 +168,7 @@ public class DataLayer implements DataLayerInterface {
 				String treatment = rs.getString("treatment");
 				String location = rs.getString("location");
 				String timeDetails = rs.getString("time_details");
-				res.add(new MedicalRecord(medID,patientID,diagnosis,treatment,location,timeDetails));
+				res.add(new MedicalRecord(medID, patientID, diagnosis, treatment, location, timeDetails));
 			}
 
 		} catch (Exception e) {
@@ -181,5 +183,34 @@ public class DataLayer implements DataLayerInterface {
 		}
 		return res;
 	}
+
+	@Override
+	public ArrayList<Hospital> getHospitals() {
+		ArrayList<Hospital> res = new ArrayList<>();
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT h_id, h_name, lat, lon FROM hospitals";
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				int id = rs.getInt("h_id");
+				String name = rs.getString("h_name");
+				double lat = rs.getDouble("lat");
+				double lon = rs.getDouble("lon");
+				res.add(new Hospital(id,name,lat,lon));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return res;
+	}
+	
 
 }

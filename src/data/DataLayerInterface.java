@@ -2,6 +2,7 @@ package data;
 
 import java.util.ArrayList;
 
+import utilities.Hospital;
 import utilities.MedicalRecord;
 import utilities.Patient;
 
@@ -15,4 +16,6 @@ public interface DataLayerInterface {
 	public boolean deletePatient(int id);
 	
 	public ArrayList<MedicalRecord> getRecords(int id);
+	
+	public ArrayList<Hospital> getHospitals();
 }
