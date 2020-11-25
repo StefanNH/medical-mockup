@@ -125,9 +125,13 @@ public class KwikMedicalGUI extends JFrame {
 
 		btnDelete = new JButton("DELETE");
 		btnDelete.addActionListener(e -> {
-			int patientID = Integer.parseInt(txtNHSnum.getText());
-			String result = appLayer.deletePatient(patientID);
-			lblDisplayInfo.setText(result);
+			int response = JOptionPane.showConfirmDialog(null, "Press YES if you to continue?", "Warning",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if (response == JOptionPane.YES_OPTION) {
+				int patientID = Integer.parseInt(txtNHSnum.getText());
+				String result = appLayer.deletePatient(patientID);
+				lblDisplayInfo.setText(result);
+			}
 		});
 		btnDelete.setForeground(Color.WHITE);
 		btnDelete.setBackground(Color.RED);
