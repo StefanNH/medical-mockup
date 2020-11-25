@@ -124,6 +124,9 @@ public class KwikMedicalGUI extends JFrame {
 		getContentPane().add(btnUpdate);
 
 		btnDelete = new JButton("DELETE");
+		btnDelete.setForeground(Color.WHITE);
+		btnDelete.setBackground(Color.RED);
+		btnDelete.setBounds(462, 134, 114, 21);
 		btnDelete.addActionListener(e -> {
 			int response = JOptionPane.showConfirmDialog(null, "Press YES if you to continue?", "Warning",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -133,9 +136,6 @@ public class KwikMedicalGUI extends JFrame {
 				lblDisplayInfo.setText(result);
 			}
 		});
-		btnDelete.setForeground(Color.WHITE);
-		btnDelete.setBackground(Color.RED);
-		btnDelete.setBounds(462, 134, 114, 21);
 		getContentPane().add(btnDelete);
 
 		btnSearch = new JButton("SEARCH");

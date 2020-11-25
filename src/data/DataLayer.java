@@ -153,6 +153,129 @@ public class DataLayer implements DataLayerInterface {
 	}
 
 	@Override
+	public boolean addRecord(MedicalRecord rd) {
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT * FROM records WHERE med_id =" + rd.getId() + ";";
+			String update = "INSERT INTO records (med_id,patient_id,diagnosis,treatment,location,time_details) "
+					+ "VALUES (" + rd.getId() + ", " + rd.getPatient_id() + ", '" + rd.getDiagnosis() + "', '"
+					+ rd.getTreatment() + "', '" + rd.getLocation() + "','" + rd.getTime_details() + "');";
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				return false;
+			} else {
+				stmt.executeUpdate(update);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public MedicalRecord getRecord(int id) {
+		MedicalRecord record = new MedicalRecord();
+		try {
+
+			stmt = conn.createStatement();
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE med_id ="
+					+ id + ";";
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				int recordID = rs.getInt("med_id");
+				int patientID = rs.getInt("patient_id");
+				String diagnosis = rs.getString("diagnosis");
+				String treatment = rs.getString("treatment");
+				String location = rs.getString("location");
+				String time = rs.getString("time_details");
+				record.setId(recordID);
+				record.setPatient_id(patientID);
+				record.setDiagnosis(diagnosis);
+				record.setTreatment(treatment);
+				record.setLocation(location);
+				record.setTime_details(time);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return record;
+	}
+
+	@Override
+	public boolean updateRecord(MedicalRecord rd) {
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE med_id ="
+					+ rd.getId() + ";";
+			String update = "UPDATE records SET patient_id =" + rd.getPatient_id() + ", diagnosis='" + rd.getDiagnosis()
+					+ "', treatment='" + rd.getTreatment() + "', location='" + rd.getLocation() + "', time_details='"
+					+ rd.getTime_details() + "' WHERE med_id=" + rd.getId() + ";";
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				stmt.executeUpdate(update);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteRecord(int id) {
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE med_id="
+					+ id + ";";
+			String delete = "DELETE FROM records WHERE med_id=" + id + ";";
+			rs = stmt.executeQuery(query);
+			if (rs.next()) {
+				stmt.executeUpdate(delete);
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public ArrayList<MedicalRecord> getRecords(int id) {
 		ArrayList<MedicalRecord> res = new ArrayList<>();
 		try {
@@ -183,7 +306,7 @@ public class DataLayer implements DataLayerInterface {
 		}
 		return res;
 	}
-	
+
 	@Override
 	public ArrayList<MedicalRecord> getSimilarDiagnosis(String diagnosis) {
 		ArrayList<MedicalRecord> res = new ArrayList<>();
@@ -223,14 +346,14 @@ public class DataLayer implements DataLayerInterface {
 			stmt = conn.createStatement();
 			String query = "SELECT h_id, h_name, lat, lon FROM hospitals";
 			rs = stmt.executeQuery(query);
-			while(rs.next()) {
+			while (rs.next()) {
 				int id = rs.getInt("h_id");
 				String name = rs.getString("h_name");
 				double lat = rs.getDouble("lat");
 				double lon = rs.getDouble("lon");
-				res.add(new Hospital(id,name,lat,lon));
+				res.add(new Hospital(id, name, lat, lon));
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -243,6 +366,5 @@ public class DataLayer implements DataLayerInterface {
 		}
 		return res;
 	}
-	
 
 }

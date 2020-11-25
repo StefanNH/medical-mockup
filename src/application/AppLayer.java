@@ -1,8 +1,6 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Collections;
-
 import data.DataLayerInterface;
 import utilities.Hospital;
 import utilities.MedicalRecord;
@@ -52,6 +50,21 @@ public class AppLayer implements AppLayerInterface {
 	}
 
 	@Override
+	public String addRecord(MedicalRecord rd) {
+		boolean success = dt.addRecord(rd);
+		if (success) {
+			return "Record added successfully";
+		} else {
+			return "Failed to add Record";
+		}
+	}
+
+	@Override
+	public MedicalRecord findRecord(int id) {
+		return dt.getRecord(id);
+	}
+
+	@Override
 	public String getRecords(int id) {
 		ArrayList<MedicalRecord> res = dt.getRecords(id);
 		String result = "";
@@ -61,6 +74,26 @@ public class AppLayer implements AppLayerInterface {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public String updateRecord(MedicalRecord rd) {
+		boolean success = dt.updateRecord(rd);
+		if (success) {
+			return "Record updated successfully";
+		} else {
+			return "Record update failed";
+		}
+	}
+
+	@Override
+	public String deleteRecord(int id) {
+		boolean success = dt.deleteRecord(id);
+		if (success) {
+			return "Record removed successfully";
+		} else {
+			return "Failed to remove Record";
+		}
 	}
 
 	@Override
