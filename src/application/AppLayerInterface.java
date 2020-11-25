@@ -1,5 +1,6 @@
 package application;
 
+import utilities.Hospital;
 import utilities.Patient;
 
 public interface AppLayerInterface {
@@ -12,5 +13,9 @@ public interface AppLayerInterface {
 	public String deletePatient(int id);
 	
 	public String getRecords(int id);
+	
+	public String getSimilarDiagnosis(String diagnosis);
+	
+	public Hospital getClosestHospital(double x, double y);
 
 }

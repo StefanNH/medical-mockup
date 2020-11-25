@@ -183,6 +183,38 @@ public class DataLayer implements DataLayerInterface {
 		}
 		return res;
 	}
+	
+	@Override
+	public ArrayList<MedicalRecord> getSimilarDiagnosis(String diagnosis) {
+		ArrayList<MedicalRecord> res = new ArrayList<>();
+		try {
+
+			stmt = conn.createStatement();
+			String query = "SELECT med_id, patient_id, diagnosis, treatment, location, time_details FROM records WHERE diagnosis LIKE '%"
+					+ diagnosis + "%';";
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				int medID = rs.getInt("med_id");
+				int patientID = rs.getInt("patient_id");
+				String diagnosisGET = rs.getString("diagnosis");
+				String treatment = rs.getString("treatment");
+				String location = rs.getString("location");
+				String timeDetails = rs.getString("time_details");
+				res.add(new MedicalRecord(medID, patientID, diagnosisGET, treatment, location, timeDetails));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+				rs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return res;
+	}
 
 	@Override
 	public ArrayList<Hospital> getHospitals() {

@@ -19,10 +19,13 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import application.AppLayerInterface;
+import utilities.Hospital;
 import utilities.Patient;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Component;
 import javax.swing.Box;
 
@@ -199,6 +202,15 @@ public class KwikMedicalGUI extends JFrame {
 
 		btnSendDetails = new JButton("SEND DETAILS");
 		btnSendDetails.setBounds(382, 383, 140, 21);
+		btnSendDetails.addActionListener(e -> {
+			double x = Double.parseDouble(txtCoordX.getText());
+			double y = Double.parseDouble(txtCoordY.getText());
+			Hospital hospital = appLayer.getClosestHospital(x, y);
+			String diagnosis = txtMedCondition.getText();
+			String result = appLayer.getSimilarDiagnosis(diagnosis);
+			JOptionPane.showMessageDialog(this,
+					"Sending details to " + hospital.toString() + "\r\nSimilar diagnosis\r\n" + result);
+		});
 		getContentPane().add(btnSendDetails);
 
 		JLabel lblNewLabel_4 = new JLabel("Coordinates");

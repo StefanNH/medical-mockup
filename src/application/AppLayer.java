@@ -1,8 +1,10 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import data.DataLayerInterface;
+import utilities.Hospital;
 import utilities.MedicalRecord;
 import utilities.Patient;
 
@@ -59,5 +61,32 @@ public class AppLayer implements AppLayerInterface {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public String getSimilarDiagnosis(String diagnosis) {
+		ArrayList<MedicalRecord> res = dt.getSimilarDiagnosis(diagnosis);
+		String result = "";
+		if (res.size() > 0) {
+			for (var v : res) {
+				result = result + "Diagnosis: " + v.getDiagnosis() + " Treatment: " + v.getTreatment() + "\r\n";
+			}
+		} else {
+			result = "No similar diagnosis found";
+		}
+		return result;
+	}
+
+	@Override
+	public Hospital getClosestHospital(double x, double y) {
+		ArrayList<Hospital> hospitals = dt.getHospitals();
+		hospitals.forEach(hospital -> hospital.setDistance(x, y));
+		Hospital temp = hospitals.get(0);
+		for (Hospital h : hospitals) {
+			if (h.getDistance() < temp.getDistance()) {
+				temp = h;
+			}
+		}
+		return temp;
 	}
 }

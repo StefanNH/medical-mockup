@@ -17,5 +17,7 @@ public interface DataLayerInterface {
 	
 	public ArrayList<MedicalRecord> getRecords(int id);
 	
+	public ArrayList<MedicalRecord> getSimilarDiagnosis(String diagnosis);
+	
 	public ArrayList<Hospital> getHospitals();
 }
