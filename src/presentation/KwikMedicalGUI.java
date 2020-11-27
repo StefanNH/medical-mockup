@@ -43,6 +43,7 @@ public class KwikMedicalGUI extends JFrame {
 	private JButton btnUpdateRecords;
 	private JButton btnShowRecords;
 	private JButton btnSendDetails;
+	private JButton btnMobile;
 	private JLabel lblDisplayInfo;
 	private JLabel lblMetaInfo;
 	private JScrollPane scrollPane;
@@ -195,18 +196,36 @@ public class KwikMedicalGUI extends JFrame {
 		getContentPane().add(btnUpdateRecords);
 
 		txtCoordX = new JTextField();
-		txtCoordX.setBounds(170, 384, 96, 19);
+		txtCoordX.setBounds(97, 383, 96, 19);
 		getContentPane().add(txtCoordX);
 		txtCoordX.setColumns(10);
 
 		txtCoordY = new JTextField();
-		txtCoordY.setBounds(276, 384, 96, 19);
+		txtCoordY.setBounds(199, 383, 96, 19);
 		getContentPane().add(txtCoordY);
 		txtCoordY.setColumns(10);
 
-		btnSendDetails = new JButton("SEND DETAILS");
-		btnSendDetails.setBounds(382, 383, 140, 21);
+		btnSendDetails = new JButton("HOSPITAL");
+		btnSendDetails.setBounds(374, 383, 99, 19);
 		btnSendDetails.addActionListener(e -> {
+			double x = Double.parseDouble(txtCoordX.getText());
+			double y = Double.parseDouble(txtCoordY.getText());
+			Hospital hospital = appLayer.getClosestHospital(x, y);
+			int patientId = Integer.parseInt(txtNHSnum.getText());
+			String result = appLayer.getRecords(patientId);
+			JOptionPane.showMessageDialog(this,
+					"Sending details to " + hospital.toString() + "\r\nPatient records\r\n" + result);
+		});
+		getContentPane().add(btnSendDetails);
+
+		JLabel lblNewLabel_4 = new JLabel("Coordinates");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setBounds(9, 386, 94, 13);
+		getContentPane().add(lblNewLabel_4);
+		
+		btnMobile = new JButton("MOBILE");
+		btnMobile.setBounds(477, 383, 99, 19);
+		btnMobile.addActionListener(e->{
 			double x = Double.parseDouble(txtCoordX.getText());
 			double y = Double.parseDouble(txtCoordY.getText());
 			Hospital hospital = appLayer.getClosestHospital(x, y);
@@ -215,12 +234,12 @@ public class KwikMedicalGUI extends JFrame {
 			JOptionPane.showMessageDialog(this,
 					"Sending details to " + hospital.toString() + "\r\nSimilar diagnosis\r\n" + result);
 		});
-		getContentPane().add(btnSendDetails);
-
-		JLabel lblNewLabel_4 = new JLabel("Coordinates");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_4.setBounds(50, 387, 118, 13);
-		getContentPane().add(lblNewLabel_4);
+		getContentPane().add(btnMobile);
+		
+		JLabel lblNewLabel_5 = new JLabel("Send to");
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setBounds(306, 386, 58, 13);
+		getContentPane().add(lblNewLabel_5);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Kwik Medical");
